@@ -9,8 +9,9 @@ buildscript {
 
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.android.databinding'
 
-group='com.github.gonzalomelov'
+group = 'com.github.gonzalomelov'
 
 android {
   compileSdkVersion 23
