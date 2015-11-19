@@ -5,11 +5,11 @@ import android.databinding.BaseObservable;
 /**
  * Created by guille on 18/11/15.
  */
-public class SelectableItemWrapper extends BaseObservable {
+public class SelectableItemWrapper {
   Object item;
-  Boolean selected;
+  BindableBoolean selected;
 
-  public SelectableItemWrapper(Object item, Boolean selected) {
+  public SelectableItemWrapper(Object item, BindableBoolean selected) {
     this.item = item;
     this.selected = selected;
   }
@@ -22,12 +22,11 @@ public class SelectableItemWrapper extends BaseObservable {
     this.item = item;
   }
 
-  public Boolean isSelected() {
+  public BindableBoolean getSelected() {
     return selected;
   }
 
   public void setSelected(Boolean selected) {
-    this.selected = selected;
-    notifyChange();
+    this.selected.set(selected);
   }
 }
