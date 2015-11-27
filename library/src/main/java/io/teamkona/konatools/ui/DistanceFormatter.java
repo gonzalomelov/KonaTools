@@ -21,9 +21,9 @@ public final class DistanceFormatter {
   public static final double METERS_IN_ONE_FOOT = 0.3048;
   public static final double FEET_IN_ONE_MILE = 5280;
 
-  private static DecimalFormat decimalFormat;
+  private DecimalFormat decimalFormat;
 
-  private DistanceFormatter() {
+  public DistanceFormatter() {
   }
 
   /**
@@ -33,7 +33,7 @@ public final class DistanceFormatter {
    * @param distanceInMeters the actual distance in meters.
    * @return distance string formatted according to the rules of hte formatter.
    */
-  public static String format(int distanceInMeters) {
+  public String format(int distanceInMeters) {
     return format(distanceInMeters, false);
   }
 
@@ -44,7 +44,7 @@ public final class DistanceFormatter {
    * @param realTime boolean flag for navigation vs. list view.
    * @return distance string formatted according to the rules of the formatter.
    */
-  public static String format(int distanceInMeters, boolean realTime) {
+  public String format(int distanceInMeters, boolean realTime) {
     Locale locale = Locale.getDefault();
     return format(distanceInMeters, realTime, locale);
   }
@@ -57,7 +57,7 @@ public final class DistanceFormatter {
    * @param units miles or kilometers.
    * @return distance string formatted according to the rules of the formatter.
    */
-  public static String format(int distanceInMeters, boolean realTime, DistanceUnits units) {
+  public String format(int distanceInMeters, boolean realTime, DistanceUnits units) {
     return format(distanceInMeters, realTime, Locale.getDefault(), units);
   }
 
@@ -69,7 +69,7 @@ public final class DistanceFormatter {
    * @param locale Locale that defines the number format for displaying distance.
    * @return distance string formatted according to the rules of the formatter.
    */
-  public static String format(int distanceInMeters, boolean realTime, Locale locale) {
+  public String format(int distanceInMeters, boolean realTime, Locale locale) {
     if (useMiles(locale)) {
       return format(distanceInMeters, realTime, locale, DistanceUnits.MILES);
     } else {
@@ -86,7 +86,7 @@ public final class DistanceFormatter {
    * @param units miles or kilometers.
    * @return distance string formatted according to the rules of the formatter.
    */
-  public static String format(int distanceInMeters, boolean realTime, Locale locale,
+  public String format(int distanceInMeters, boolean realTime, Locale locale,
       DistanceUnits units) {
 
     decimalFormat = (DecimalFormat) NumberFormat.getNumberInstance(locale);
@@ -106,7 +106,7 @@ public final class DistanceFormatter {
     }
   }
 
-  private static String formatMiles(int distanceInMeters, boolean realTime) {
+  private String formatMiles(int distanceInMeters, boolean realTime) {
     double distanceInFeet = distanceInMeters / METERS_IN_ONE_FOOT;
     if (distanceInFeet < 10) {
       return formatDistanceLessThanTenFeet(distanceInFeet, realTime);
@@ -117,7 +117,7 @@ public final class DistanceFormatter {
     }
   }
 
-  private static String formatKilometers(int distanceInMeters, boolean realTime) {
+  private String formatKilometers(int distanceInMeters, boolean realTime) {
     if (distanceInMeters >= 100) {
       return formatDistanceInKilometers(distanceInMeters);
     } else if (distanceInMeters > 10) {
@@ -127,15 +127,15 @@ public final class DistanceFormatter {
     }
   }
 
-  private static boolean useMiles(Locale locale) {
+  private boolean useMiles(Locale locale) {
     return locale.equals(Locale.US) || locale.equals(Locale.UK);
   }
 
-  private static String formatDistanceOverTenMeters(int distanceInMeters) {
+  private String formatDistanceOverTenMeters(int distanceInMeters) {
     return String.format(Locale.getDefault(), "%s m", distanceInMeters);
   }
 
-  private static String formatShortMeters(int distanceInMeters, boolean realTime) {
+  private String formatShortMeters(int distanceInMeters, boolean realTime) {
     if (realTime) {
       return "now";
     } else {
@@ -143,12 +143,12 @@ public final class DistanceFormatter {
     }
   }
 
-  private static String formatDistanceInKilometers(int distanceInMeters) {
+  private String formatDistanceInKilometers(int distanceInMeters) {
     String value = decimalFormat.format((float) distanceInMeters / 1000);
     return String.format(Locale.getDefault(), "%s km", value);
   }
 
-  private static String formatDistanceLessThanTenFeet(double distanceInFeet, boolean realTime) {
+  private String formatDistanceLessThanTenFeet(double distanceInFeet, boolean realTime) {
     if (realTime) {
       return "now";
     } else {
@@ -156,17 +156,17 @@ public final class DistanceFormatter {
     }
   }
 
-  private static String formatDistanceOverTenFeet(double distanceInFeet) {
+  private String formatDistanceOverTenFeet(double distanceInFeet) {
     int roundedDistanceInFeet = roundDownToNearestTen(distanceInFeet);
     return String.format(Locale.getDefault(), "%d ft", roundedDistanceInFeet);
   }
 
-  private static String formatDistanceInMiles(int distanceInMeters) {
+  private String formatDistanceInMiles(int distanceInMeters) {
     return String.format(Locale.getDefault(), "%s mi",
         decimalFormat.format(distanceInMeters / METERS_IN_ONE_MILE));
   }
 
-  private static int roundDownToNearestTen(double distance) {
+  private int roundDownToNearestTen(double distance) {
     return (int) Math.floor(distance / 10) * 10;
   }
 }
