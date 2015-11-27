@@ -18,6 +18,8 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
   // Sets the starting page index
   private int startingPageIndex = 0;
 
+  private int maxPages = 999;
+
   private LinearLayoutManager linearLayoutManager;
 
   public EndlessScrollListener() {
@@ -27,14 +29,16 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     this.linearLayoutManager = linearLayoutManager;
   }
 
-  public EndlessScrollListener(int visibleThreshold) {
+  public EndlessScrollListener(LinearLayoutManager linearLayoutManager, int visibleThreshold) {
+    this.linearLayoutManager = linearLayoutManager;
     this.visibleThreshold = visibleThreshold;
   }
 
-  public EndlessScrollListener(int visibleThreshold, int startPage) {
-    this.visibleThreshold = visibleThreshold;
+  public EndlessScrollListener(LinearLayoutManager linearLayoutManager, int startPage, int maxPages) {
+    this.linearLayoutManager = linearLayoutManager;
     this.startingPageIndex = startPage;
     this.currentPage = startPage;
+    this.maxPages = maxPages;
   }
 
   public abstract boolean onLoadMore(int page, int totalItemsCount);
@@ -67,7 +71,7 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     // If it isn't currently loading, we check to see if we have breached
     // the visibleThreshold and need to reload more data.
     // If we do need to reload some more data, we execute onLoadMore to fetch the data.
-    if (!loading && (totalItemCount - visibleItemCount)<=(firstVisibleItem + visibleThreshold)) {
+    if (!loading && (totalItemCount - visibleItemCount)<=(firstVisibleItem + visibleThreshold) && currentPage < maxPages) {
       loading = onLoadMore(currentPage + 1, totalItemCount);
     }
   }
