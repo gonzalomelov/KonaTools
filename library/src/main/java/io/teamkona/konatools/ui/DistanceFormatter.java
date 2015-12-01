@@ -10,10 +10,10 @@ import java.util.Locale;
 /**
  * Formats a distance in meters according to the following rules:
  * <ul>
- *     <li>Distances over 0.1 miles return distance in miles with a max of one decimal place.</li>
- *     <li>Distances under 0.1 miles return distance in feet rounded down to the nearest 10.</li>
- *     <li>Distances under 10 feet return the actual value in feet in normal (list) mode.</li>
- *     <li>Distances under 10 feet return "now" in real-time (navigation) mode.</li>
+ * <li>Distances over 0.1 miles return distance in miles with a max of one decimal place.</li>
+ * <li>Distances under 0.1 miles return distance in feet rounded down to the nearest 10.</li>
+ * <li>Distances under 10 feet return the actual value in feet in normal (list) mode.</li>
+ * <li>Distances under 10 feet return "now" in real-time (navigation) mode.</li>
  * </ul>
  */
 public final class DistanceFormatter {
@@ -86,8 +86,7 @@ public final class DistanceFormatter {
    * @param units miles or kilometers.
    * @return distance string formatted according to the rules of the formatter.
    */
-  public String format(int distanceInMeters, boolean realTime, Locale locale,
-      DistanceUnits units) {
+  public String format(int distanceInMeters, boolean realTime, Locale locale, DistanceUnits units) {
 
     decimalFormat = (DecimalFormat) NumberFormat.getNumberInstance(locale);
     decimalFormat.applyPattern("#.#");
@@ -162,8 +161,7 @@ public final class DistanceFormatter {
   }
 
   private String formatDistanceInMiles(int distanceInMeters) {
-    return String.format(Locale.getDefault(), "%s mi",
-        decimalFormat.format(distanceInMeters / METERS_IN_ONE_MILE));
+    return String.format(Locale.getDefault(), "%s mi", decimalFormat.format(distanceInMeters / METERS_IN_ONE_MILE));
   }
 
   private int roundDownToNearestTen(double distance) {

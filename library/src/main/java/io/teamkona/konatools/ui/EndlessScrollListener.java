@@ -3,6 +3,7 @@ package io.teamkona.konatools.ui;
 /**
  * Created by guille on 09/11/15.
  */
+
 import android.support.v7.widget.RecyclerView;
 
 public abstract class EndlessScrollListener extends RecyclerView.OnScrollListener {
@@ -57,7 +58,9 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     if (totalItemCount < previousTotalItemCount) {
       this.currentPage = this.startingPageIndex;
       this.previousTotalItemCount = totalItemCount;
-      if (totalItemCount == 0) { this.loading = true; }
+      if (totalItemCount == 0) {
+        this.loading = true;
+      }
     }
     // If it's still loading, we check to see if the dataset count has
     // changed, if so we conclude it has finished loading and update the current page
@@ -71,7 +74,7 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     // If it isn't currently loading, we check to see if we have breached
     // the visibleThreshold and need to reload more data.
     // If we do need to reload some more data, we execute onLoadMore to fetch the data.
-    if (!loading && (totalItemCount - visibleItemCount)<=(firstVisibleItem + visibleThreshold) && currentPage < maxPages) {
+    if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold) && currentPage < maxPages) {
       loading = onLoadMore(currentPage + 1, totalItemCount);
     }
   }

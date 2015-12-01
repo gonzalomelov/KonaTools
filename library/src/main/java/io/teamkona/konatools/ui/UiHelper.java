@@ -44,6 +44,7 @@ public class UiHelper {
 
   /**
    * Tint the image views to the selected color
+   *
    * @param context Context
    * @param colorRes Color res to tint the image views
    * @param imageViews Image views
@@ -54,6 +55,7 @@ public class UiHelper {
 
   /**
    * Tint the image views to the selected color
+   *
    * @param colorStateList Color state list to tint the image views
    * @param imageViews Image views
    */

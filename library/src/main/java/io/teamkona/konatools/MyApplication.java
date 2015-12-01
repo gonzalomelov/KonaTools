@@ -28,7 +28,6 @@ public abstract class MyApplication extends Application {
 
   protected RetrofitHelper retrofitHelper;
 
-
   @Override public void onCreate() {
     super.onCreate();
     MyApplication.appContext = getApplicationContext();

@@ -1,7 +1,5 @@
 package io.teamkona.konatools.wrappers;
 
-import android.databinding.BaseObservable;
-
 /**
  * Created by guille on 18/11/15.
  */

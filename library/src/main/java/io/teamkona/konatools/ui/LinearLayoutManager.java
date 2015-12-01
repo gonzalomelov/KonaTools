@@ -31,13 +31,11 @@ public class LinearLayoutManager extends android.support.v7.widget.LinearLayoutM
   private int childSize = DEFAULT_CHILD_SIZE;
   private boolean hasChildSize;
 
-  @SuppressWarnings("UnusedDeclaration")
-  public LinearLayoutManager(Context context) {
+  @SuppressWarnings("UnusedDeclaration") public LinearLayoutManager(Context context) {
     super(context);
   }
 
-  @SuppressWarnings("UnusedDeclaration")
-  public LinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
+  @SuppressWarnings("UnusedDeclaration") public LinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
     super(context, orientation, reverseLayout);
   }
 
@@ -45,8 +43,7 @@ public class LinearLayoutManager extends android.support.v7.widget.LinearLayoutM
     return View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
   }
 
-  @Override
-  public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
+  @Override public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
     final int widthMode = View.MeasureSpec.getMode(widthSpec);
     final int heightMode = View.MeasureSpec.getMode(heightSpec);
 
@@ -163,8 +160,7 @@ public class LinearLayoutManager extends android.support.v7.widget.LinearLayoutM
     }
   }
 
-  @Override
-  public void setOrientation(int orientation) {
+  @Override public void setOrientation(int orientation) {
     // might be called before the constructor of this class is called
     //noinspection ConstantConditions
     if (childDimensions != null) {

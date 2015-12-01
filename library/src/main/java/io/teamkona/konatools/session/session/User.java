@@ -16,8 +16,7 @@ public class User {
   public static final String MALE = "M";
   public static final String FEMALE = "F";
 
-  @Retention(RetentionPolicy.SOURCE)
-  @StringDef({ User.MALE, User.FEMALE }) public @interface Gender {
+  @Retention(RetentionPolicy.SOURCE) @StringDef({ User.MALE, User.FEMALE }) public @interface Gender {
   }
 
   @SerializedName(Constants.ID) private String id;
