@@ -3,6 +3,8 @@ package io.teamkona.konatools.session.session;
 import android.support.annotation.StringDef;
 import com.google.gson.annotations.SerializedName;
 import io.teamkona.konatools.network.services.Constants;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.net.URL;
 import org.threeten.bp.LocalDateTime;
 
@@ -14,6 +16,7 @@ public class User {
   public static final String MALE = "M";
   public static final String FEMALE = "F";
 
+  @Retention(RetentionPolicy.SOURCE)
   @StringDef({ User.MALE, User.FEMALE }) public @interface Gender {
   }
 
