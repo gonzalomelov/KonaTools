@@ -26,6 +26,7 @@ public abstract class MyApplication extends Application {
 
   protected Tracker mTracker;
 
+  protected RetrofitHelper apiRetrofitHelper;
   protected RetrofitHelper retrofitHelper;
 
   @Override public void onCreate() {
@@ -57,10 +58,14 @@ public abstract class MyApplication extends Application {
     SharedPreferencesStore sharedPreferencesStore = new SharedPreferencesStore(this, myGson);
     SessionManager sessionManager = new SessionManager(sharedPreferencesStore);
     MyOkHttpClient myOkHttpClient = new MyOkHttpClient(sessionManager);
+    // FIXME Delete this
     retrofitHelper = new RetrofitHelper(myOkHttpClient, myGson, getHost());
+    apiRetrofitHelper = new RetrofitHelper(myOkHttpClient, myGson, getApiHost());
   }
 
   protected abstract String getHost();
+
+  protected abstract String getApiHost();
 
   public static Context getAppContext() {
     return appContext;

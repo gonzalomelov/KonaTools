@@ -12,11 +12,17 @@ import android.view.View;
  **/
 public class GridSpacingDecoration extends RecyclerView.ItemDecoration {
 
+  private float dpSize;
+
+  public GridSpacingDecoration(float dpSize) {
+    this.dpSize = dpSize;
+  }
+
   @Override public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
 
     super.getItemOffsets(outRect, view, parent, state);
 
-    int spacing = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, view.getResources().getDisplayMetrics());
+    int spacing = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpSize, view.getResources().getDisplayMetrics());
 
     int halfSpacing = spacing / 2;
 
@@ -51,14 +57,12 @@ public class GridSpacingDecoration extends RecyclerView.ItemDecoration {
   }
 
   protected int getTotalSpan(View view, RecyclerView parent) {
-
     RecyclerView.LayoutManager mgr = parent.getLayoutManager();
     if (mgr instanceof GridLayoutManager) {
       return ((GridLayoutManager) mgr).getSpanCount();
     } else if (mgr instanceof StaggeredGridLayoutManager) {
       return ((StaggeredGridLayoutManager) mgr).getSpanCount();
     }
-
     return -1;
   }
 
