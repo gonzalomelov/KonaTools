@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 /**
  * Created by guille on 19/11/15.
  */
+// FIXME Remove. Use ObservableBoolean
 public class BindableBoolean extends BaseObservable {
   public static final boolean DEFAULT = false;
 

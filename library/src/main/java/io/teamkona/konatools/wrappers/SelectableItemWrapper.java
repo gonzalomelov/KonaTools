@@ -4,6 +4,7 @@ package io.teamkona.konatools.wrappers;
  * Created by guille on 18/11/15.
  */
 public class SelectableItemWrapper {
+  // FIXME User type parameter T
   Object item;
   BindableBoolean selected;
 
