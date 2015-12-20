@@ -1,5 +1,6 @@
 package io.teamkona.konatools.network.services.request;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,6 +8,10 @@ import java.util.List;
  **/
 public class PopulatedRequest {
   private List<String> populations;
+
+  public PopulatedRequest() {
+    this.populations = new ArrayList<>();
+  }
 
   public PopulatedRequest(List<String> populations) {
     this.populations = populations;

@@ -2,6 +2,7 @@ package io.teamkona.konatools;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Pair;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -14,6 +15,8 @@ import io.teamkona.konatools.network.MyOkHttpClient;
 import io.teamkona.konatools.network.RetrofitHelper;
 import io.teamkona.konatools.session.session.SessionManager;
 import io.teamkona.konatools.sharedpreferences.SharedPreferencesStore;
+import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * Created by gonzalomelov on 11/25/15.
@@ -36,7 +39,7 @@ public abstract class MyApplication extends Application {
     setupAndroidThreeTen();
     setupFabric();
     setupFacebook();
-    setupRetrofit();
+    setupRetrofit(getCustomTypeAdapters());
   }
 
   private void setupAndroidThreeTen() {
@@ -53,8 +56,8 @@ public abstract class MyApplication extends Application {
     FacebookSdk.sdkInitialize(getApplicationContext());
   }
 
-  protected void setupRetrofit() {
-    MyGson myGson = new MyGson();
+  protected void setupRetrofit(List<Pair<Type, Object>> customTypeAdapters) {
+    MyGson myGson = new MyGson(customTypeAdapters);
     SharedPreferencesStore sharedPreferencesStore = new SharedPreferencesStore(this, myGson);
     SessionManager sessionManager = new SessionManager(sharedPreferencesStore);
     MyOkHttpClient myOkHttpClient = new MyOkHttpClient(sessionManager);
@@ -66,6 +69,8 @@ public abstract class MyApplication extends Application {
   protected abstract String getHost();
 
   protected abstract String getApiHost();
+
+  protected abstract List<Pair<Type, Object>> getCustomTypeAdapters();
 
   public static Context getAppContext() {
     return appContext;

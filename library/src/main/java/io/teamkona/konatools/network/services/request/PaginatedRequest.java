@@ -7,19 +7,22 @@ import io.teamkona.konatools.network.services.Constants;
  * Created by gonzalomelov on 5/6/15.
  */
 public class PaginatedRequest {
-  @SerializedName(Constants.OFFSET) private int offset;
-  @SerializedName(Constants.LIMIT) private int limit;
+  @SerializedName(Constants.OFFSET) private Integer offset;
+  @SerializedName(Constants.LIMIT) private Integer limit;
 
-  public PaginatedRequest(int offset, int limit) {
+  public PaginatedRequest() {
+  }
+
+  public PaginatedRequest(Integer offset, Integer limit) {
     this.offset = offset;
     this.limit = limit;
   }
 
-  public int getOffset() {
+  public Integer getOffset() {
     return offset;
   }
 
-  public int getLimit() {
+  public Integer getLimit() {
     return limit;
   }
 }
