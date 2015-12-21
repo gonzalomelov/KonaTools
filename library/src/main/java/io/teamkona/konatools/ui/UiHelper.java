@@ -3,10 +3,14 @@ package io.teamkona.konatools.ui;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.DisplayMetrics;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 /**
@@ -63,5 +67,11 @@ public class UiHelper {
     for (ImageView imageView : imageViews) {
       DrawableCompat.setTintList(DrawableCompat.wrap(imageView.getDrawable()), colorStateList);
     }
+  }
+
+  public static void setMenuItemTint(Context context, MenuItem item, int color){
+    Drawable newIcon = item.getIcon();
+    newIcon.mutate().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+    item.setIcon(newIcon);
   }
 }

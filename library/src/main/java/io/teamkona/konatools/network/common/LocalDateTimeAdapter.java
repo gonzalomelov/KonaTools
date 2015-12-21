@@ -13,6 +13,7 @@ import org.threeten.bp.ZoneId;
  * Created by gonzalomelov on 11/26/15.
  **/
 public class LocalDateTimeAdapter implements JsonDeserializer<LocalDateTime> {
+
   @Override public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     // TODO Refactor Do not use string parse and unparse
     Instant instant = Instant.parse(json.getAsJsonPrimitive().getAsString());
