@@ -7,6 +7,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
+import com.google.gson.TypeAdapter;
 import io.realm.RealmObject;
 import io.teamkona.konatools.network.common.LocalDateTimeAdapter;
 import io.teamkona.konatools.network.common.LocalTimeAdapter;
@@ -25,14 +26,22 @@ public class MyGson {
 
   public final static String DATE_TIME_WITH_SECONDS = "yyyy-MM-dd'T'HH:mm:ss";
 
-  private List<Pair<Type, JsonDeserializer>> customTypeAdapters;
+  private List<Pair<Type, TypeAdapter>> customTypeAdapters;
+  private List<Pair<Type, JsonDeserializer>> customJsonDeserializers;
 
   public MyGson() {
-    customTypeAdapters = new ArrayList<>();
+    this.customTypeAdapters = new ArrayList<>();
+    this.customJsonDeserializers = new ArrayList<>();
   }
 
-  public MyGson(List<Pair<Type, JsonDeserializer>> customTypeAdapters) {
+  public MyGson(List<Pair<Type, JsonDeserializer>> customJsonDeserializers) {
+    this.customTypeAdapters = new ArrayList<>();
+    this.customJsonDeserializers = customJsonDeserializers;
+  }
+
+  public MyGson(List<Pair<Type, TypeAdapter>> customTypeAdapters, List<Pair<Type, JsonDeserializer>> customJsonDeserializers) {
     this.customTypeAdapters = customTypeAdapters;
+    this.customJsonDeserializers = customJsonDeserializers;
   }
 
   public Gson getGson() {
@@ -53,8 +62,11 @@ public class MyGson {
     gsonBuilder.registerTypeAdapter(URL.class, new NullableURLAdapter());
     gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter());
     gsonBuilder.registerTypeAdapter(LocalTime.class, new LocalTimeAdapter());
-    for (Pair<Type, JsonDeserializer> typeAdapterPair : customTypeAdapters) {
+    for (Pair<Type, TypeAdapter> typeAdapterPair : customTypeAdapters) {
       gsonBuilder.registerTypeAdapter(typeAdapterPair.first, typeAdapterPair.second);
+    }
+    for (Pair<Type, JsonDeserializer> jsonDeserializerPair : customJsonDeserializers) {
+      gsonBuilder.registerTypeAdapter(jsonDeserializerPair.first, jsonDeserializerPair.second);
     }
     return gsonBuilder.create();
   }

@@ -8,6 +8,7 @@ import com.facebook.FacebookSdk;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.google.gson.JsonDeserializer;
+import com.google.gson.TypeAdapter;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import io.fabric.sdk.android.Fabric;
 import io.teamkona.konatools.events.MyEventBus;
@@ -40,7 +41,7 @@ public abstract class MyApplication extends Application {
     setupAndroidThreeTen();
     setupFabric();
     setupFacebook();
-    setupRetrofit(getCustomTypeAdapters());
+    setupRetrofit(getCustomTypeAdapters(), getCustomJsonDeserializers());
   }
 
   private void setupAndroidThreeTen() {
@@ -57,8 +58,8 @@ public abstract class MyApplication extends Application {
     FacebookSdk.sdkInitialize(getApplicationContext());
   }
 
-  protected void setupRetrofit(List<Pair<Type, JsonDeserializer>> customTypeAdapters) {
-    MyGson myGson = new MyGson(customTypeAdapters);
+  protected void setupRetrofit(List<Pair<Type, TypeAdapter>> customTypeAdapters, List<Pair<Type, JsonDeserializer>> customJsonDeserializers) {
+    MyGson myGson = new MyGson(customTypeAdapters, customJsonDeserializers);
     SharedPreferencesStore sharedPreferencesStore = new SharedPreferencesStore(this, myGson);
     SessionManager sessionManager = new SessionManager(sharedPreferencesStore);
     MyOkHttpClient myOkHttpClient = new MyOkHttpClient(sessionManager);
@@ -71,7 +72,9 @@ public abstract class MyApplication extends Application {
 
   protected abstract String getApiHost();
 
-  protected abstract List<Pair<Type, JsonDeserializer>> getCustomTypeAdapters();
+  protected abstract List<Pair<Type, TypeAdapter>> getCustomTypeAdapters();
+
+  protected abstract List<Pair<Type, JsonDeserializer>> getCustomJsonDeserializers();
 
   public static Context getAppContext() {
     return appContext;
