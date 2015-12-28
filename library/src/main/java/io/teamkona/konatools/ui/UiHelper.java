@@ -1,5 +1,6 @@
 package io.teamkona.konatools.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -73,5 +74,9 @@ public class UiHelper {
     Drawable newIcon = item.getIcon();
     newIcon.mutate().setColorFilter(color, PorterDuff.Mode.SRC_IN);
     item.setIcon(newIcon);
+  }
+
+  public static void showDialog(Activity activity, String string) {
+
   }
 }

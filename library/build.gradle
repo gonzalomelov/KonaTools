@@ -9,7 +9,6 @@ buildscript {
 
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.android.databinding'
 
 group = 'com.github.gonzalomelov'
 
@@ -20,7 +19,7 @@ repositories {
 
 android {
   compileSdkVersion 23
-  buildToolsVersion "23.0.2"
+  buildToolsVersion '23.0.2'
 
   defaultConfig {
     minSdkVersion 16
@@ -62,4 +61,5 @@ dependencies {
     transitive = true;
   }
   compile 'com.timehop.stickyheadersrecyclerview:library:0.4.2@aar'
+  compile 'io.realm:realm-android:0.87.1'
 }

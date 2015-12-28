@@ -7,6 +7,7 @@ import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.google.gson.JsonDeserializer;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import io.fabric.sdk.android.Fabric;
 import io.teamkona.konatools.events.MyEventBus;
@@ -56,7 +57,7 @@ public abstract class MyApplication extends Application {
     FacebookSdk.sdkInitialize(getApplicationContext());
   }
 
-  protected void setupRetrofit(List<Pair<Type, Object>> customTypeAdapters) {
+  protected void setupRetrofit(List<Pair<Type, JsonDeserializer>> customTypeAdapters) {
     MyGson myGson = new MyGson(customTypeAdapters);
     SharedPreferencesStore sharedPreferencesStore = new SharedPreferencesStore(this, myGson);
     SessionManager sessionManager = new SessionManager(sharedPreferencesStore);
@@ -70,7 +71,7 @@ public abstract class MyApplication extends Application {
 
   protected abstract String getApiHost();
 
-  protected abstract List<Pair<Type, Object>> getCustomTypeAdapters();
+  protected abstract List<Pair<Type, JsonDeserializer>> getCustomTypeAdapters();
 
   public static Context getAppContext() {
     return appContext;
