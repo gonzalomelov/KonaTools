@@ -1,4 +1,4 @@
-package io.teamkona.konatools.session.session;
+package io.teamkona.konatools.session;
 
 /**
  * Created by gonzalomelov on 8/19/15.

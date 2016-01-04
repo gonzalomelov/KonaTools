@@ -4,8 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
-import io.teamkona.konatools.session.session.SessionManager;
-import io.teamkona.konatools.session.session.User;
+import io.teamkona.konatools.session.SessionManager;
+import io.teamkona.konatools.session.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 

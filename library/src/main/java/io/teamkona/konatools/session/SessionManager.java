@@ -1,4 +1,4 @@
-package io.teamkona.konatools.session.session;
+package io.teamkona.konatools.session;
 
 import android.support.annotation.NonNull;
 import io.teamkona.konatools.sharedpreferences.SharedPreferencesStore;

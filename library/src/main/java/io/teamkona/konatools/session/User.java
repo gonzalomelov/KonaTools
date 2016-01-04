@@ -1,22 +1,22 @@
-package io.teamkona.konatools.session.session;
+package io.teamkona.konatools.session;
 
 import android.support.annotation.StringDef;
 import com.google.gson.annotations.SerializedName;
 import io.teamkona.konatools.network.services.Constants;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.net.URL;
-import org.threeten.bp.LocalDateTime;
 
 /**
  * Created by gonzalomelov on 9/15/15.
  **/
 public class User {
 
-  public static final String MALE = "M";
-  public static final String FEMALE = "F";
+  public interface GenderOptions {
+    String MALE = "M";
+    String FEMALE = "F";
+  }
 
-  @Retention(RetentionPolicy.SOURCE) @StringDef({ User.MALE, User.FEMALE }) public @interface Gender {
+  @Retention(RetentionPolicy.SOURCE) @StringDef({ GenderOptions.MALE, GenderOptions.FEMALE }) public @interface Gender {
   }
 
   @SerializedName(Constants.ID) private String id;
@@ -25,15 +25,15 @@ public class User {
   private String firstName;
   private String lastName;
   private String facebookId;
-  private URL profilePicture;
+  private String profilePicture;
   private @Gender String gender;
-  private LocalDateTime birthdate;
+  private String birthdate;
 
   public User() {
   }
 
-  public User(String id, String email, String name, String firstName, String lastName, String facebookId, URL profilePicture,
-      @Gender String gender, LocalDateTime birthdate) {
+  public User(String id, String email, String name, String firstName, String lastName, String facebookId, String profilePicture,
+      @Gender String gender, String birthdate) {
     this.id = id;
     this.email = email;
     this.name = name;
@@ -93,11 +93,11 @@ public class User {
     this.facebookId = facebookId;
   }
 
-  public URL getProfilePicture() {
+  public String getProfilePicture() {
     return profilePicture;
   }
 
-  public void setProfilePicture(URL profilePicture) {
+  public void setProfilePicture(String profilePicture) {
     this.profilePicture = profilePicture;
   }
 
@@ -109,11 +109,11 @@ public class User {
     this.gender = gender;
   }
 
-  public LocalDateTime getBirthdate() {
+  public String getBirthdate() {
     return birthdate;
   }
 
-  public void setBirthdate(LocalDateTime birthdate) {
+  public void setBirthdate(String birthdate) {
     this.birthdate = birthdate;
   }
 }

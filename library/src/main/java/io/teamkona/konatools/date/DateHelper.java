@@ -12,6 +12,8 @@ import org.threeten.bp.ZoneId;
  */
 public class DateHelper {
 
+  public final static String DATE_TIME_WITH_SECONDS = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
   public static LocalDateTime date2LocalDateTime(Date value) {
     Date ts = value;
     Instant instant = Instant.ofEpochMilli(ts.getTime());
@@ -33,13 +35,14 @@ public class DateHelper {
     return res;
   }
 
-  //public static Date localDateTime2Date(LocalDateTime value) {
-  //  LocalDateTime ldt = value;
-  //  Instant instant = ldt.atZone(ZoneId.systemDefault()).toInstant();
-  //  Date res = Date.from(instant);
-  //  return res;
-  //}
-  //
+  public static Date localDateTime2Date(LocalDateTime value) {
+    LocalDateTime ldt = value;
+    Instant instant = ldt.atZone(ZoneId.systemDefault()).toInstant();
+    // FIXME Check if this is okay
+    Date res = new Date(instant.toEpochMilli());
+    return res;
+  }
+
   //public static Date localDate2Date(LocalDate value) {
   //  LocalDate ld = value;
   //  Instant instant = ld.atStartOvaluey().atZone(ZoneId.systemDefault()).toInstant();

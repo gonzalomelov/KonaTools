@@ -8,7 +8,7 @@ import com.google.android.gms.analytics.Tracker;
 import io.teamkona.konatools.MyApplication;
 import io.teamkona.konatools.analytics.MyMixpanelHelper;
 import io.teamkona.konatools.gson.MyGson;
-import io.teamkona.konatools.session.session.SessionManager;
+import io.teamkona.konatools.session.SessionManager;
 import io.teamkona.konatools.sharedpreferences.SharedPreferencesStore;
 
 /**
@@ -40,12 +40,14 @@ public abstract class MyAnalyticsActivity extends AppCompatActivity {
   }
 
   private void setupMixpanel() {
-    MyGson myGson = new MyGson();
-    SharedPreferencesStore sharedPreferencesStore = new SharedPreferencesStore(this, myGson);
-    SessionManager sessionManager = new SessionManager(sharedPreferencesStore);
+    SessionManager sessionManager = ((MyApplication)getApplication()).getSessionManager();
     myMixpanelHelper = getMixpanelHelper(this, sessionManager);
     myMixpanelHelper.setup();
   }
 
   protected abstract MyMixpanelHelper getMixpanelHelper(Context context, SessionManager sessionManager);
+
+  public SessionManager getSessionManager() {
+    return ((MyApplication)getApplication()).getSessionManager();
+  }
 }

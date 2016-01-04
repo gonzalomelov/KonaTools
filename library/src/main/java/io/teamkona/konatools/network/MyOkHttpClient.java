@@ -1,7 +1,7 @@
 package io.teamkona.konatools.network;
 
 import com.squareup.okhttp.OkHttpClient;
-import io.teamkona.konatools.session.session.SessionManager;
+import io.teamkona.konatools.session.SessionManager;
 import java.util.concurrent.TimeUnit;
 
 /**

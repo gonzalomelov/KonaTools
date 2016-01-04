@@ -4,15 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import io.teamkona.konatools.R;
 
 /**
  * Created by gonzalomelov on 11/1/15.
@@ -78,5 +80,31 @@ public class UiHelper {
 
   public static void showDialog(Activity activity, String string) {
 
+  }
+
+  public static void slideUpFromSideTransition(Activity activity) {
+    activity.overridePendingTransition(R.anim.slide_down, R.anim.no_slide);
+  }
+
+  public static void slideDownFromSideTransition(Activity activity) {
+    activity.overridePendingTransition(R.anim.no_slide, R.anim.slide_up);
+  }
+
+  public static void slideInFromSideTransition(Activity activity) {
+    activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+  }
+
+  public static void slideOutFromSideTransition(Activity activity) {
+    activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+  }
+
+  public static boolean isValidEmail(CharSequence target) {
+    return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+  }
+
+  public static Drawable getErrorIconForEditText(Context context, @DrawableRes int id) {
+    Drawable errorIcon = ContextCompat.getDrawable(context, id);
+    errorIcon.setBounds(new Rect(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight()));
+    return errorIcon;
   }
 }
