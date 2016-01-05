@@ -62,5 +62,5 @@ dependencies {
   }
   compile 'com.timehop.stickyheadersrecyclerview:library:0.4.2@aar'
   compile 'io.realm:realm-android:0.87.1'
-  compile 'org.parceler:parceler-api:1.0.3'
+  compile 'org.parceler:parceler-api:1.0.4'
 }
