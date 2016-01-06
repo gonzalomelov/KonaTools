@@ -69,11 +69,11 @@ public class DateHelper {
     return new Date(instant.toEpochMilli());
   }
 
-  public static Date stringFomattedUsingDashesYYYYMMdd(String date) {
+  public static Date stringFomattedUsingDashesYYYYMMddToBirthDate(String date) {
     if (TextUtils.isEmpty(date)) return null;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
-    LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
-    Instant instant = dateTime.toInstant(ZoneOffset.UTC);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    LocalDate localDate = LocalDate.parse(date, formatter);
+    Instant instant = localDate.atStartOfDay().toInstant(ZoneOffset.UTC);
     return new Date(instant.toEpochMilli());
   }
 
