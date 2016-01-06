@@ -1,5 +1,6 @@
 package io.teamkona.konatools.date;
 
+import android.text.TextUtils;
 import java.util.Date;
 import java.util.Locale;
 import org.threeten.bp.Instant;
@@ -7,6 +8,7 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZoneOffset;
 import org.threeten.bp.format.DateTimeFormatter;
 
 /**
@@ -52,10 +54,19 @@ public class DateHelper {
   }
 
   public static String birthDateToStringFomattedUsingPattern(Date date, String pattern) {
+    if (date == null) return null;
     Instant instant = Instant.ofEpochMilli(date.getTime());
     DateTimeFormatter formatter =
         DateTimeFormatter.ofPattern(pattern).withLocale(Locale.getDefault()).withZone(ZoneId.of("UTC").normalized());
     return formatter.format(instant);
+  }
+
+  public static Date stringFomattedUsingSlashesMMddYYYYToBirthDate(String date) {
+    if (TextUtils.isEmpty(date)) return null;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
+    Instant instant = dateTime.toInstant(ZoneOffset.UTC);
+    return new Date(instant.toEpochMilli());
   }
 
   //public static Date localDate2Date(LocalDate value) {

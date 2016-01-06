@@ -32,8 +32,7 @@ public abstract class MyMixpanelHelper {
       mixpanel.identify(user.getEmail());
       mixpanel.getPeople().identify(user.getEmail());
       mixpanel.getPeople().set("$email", user.getEmail());
-      mixpanel.getPeople().set("$first_name", user.getFirstName());
-      mixpanel.getPeople().set("$last_name", user.getLastName());
+      mixpanel.getPeople().set("name", user.getName());
     }
     return mixpanel;
   }
@@ -44,8 +43,7 @@ public abstract class MyMixpanelHelper {
     try {
       JSONObject props = new JSONObject();
       props.put("Email", user.getEmail());
-      props.put("FirstName", user.getFirstName());
-      props.put("LastName", user.getLastName());
+      props.put("Name", user.getName());
       props.put("FacebookId", user.getFacebookId());
       props.put("ProfilePicture", user.getProfilePicture());
       props.put("Gender", user.getGender());
@@ -60,7 +58,7 @@ public abstract class MyMixpanelHelper {
     try {
       JSONObject props = new JSONObject();
       props.put("Email", user.getEmail());
-      props.put("Name", String.format("%s %s", user.getFirstName(), user.getLastName()));
+      props.put("Name", user.getName());
       mixpanel.track("SignUp - Email", props);
     } catch (JSONException e) {
       Log.e(TAG, "Unable to add properties to JSONObject", e);

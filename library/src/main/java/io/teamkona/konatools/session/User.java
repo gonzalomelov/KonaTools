@@ -22,23 +22,19 @@ public class User {
   @SerializedName(Constants.ID) private String id;
   private String email;
   private String name;
-  private String firstName;
-  private String lastName;
   private String facebookId;
   private String profilePicture;
-  private @Gender String gender;
+  private String gender;
   private String birthdate;
 
   public User() {
   }
 
-  public User(String id, String email, String name, String firstName, String lastName, String facebookId, String profilePicture,
-      @Gender String gender, String birthdate) {
+  public User(String id, String email, String name, String facebookId, String profilePicture,
+      String gender, String birthdate) {
     this.id = id;
     this.email = email;
     this.name = name;
-    this.firstName = firstName;
-    this.lastName = lastName;
     this.facebookId = facebookId;
     this.profilePicture = profilePicture;
     this.gender = gender;
@@ -69,22 +65,6 @@ public class User {
     this.name = name;
   }
 
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
-
   public String getFacebookId() {
     return facebookId;
   }
@@ -101,11 +81,11 @@ public class User {
     this.profilePicture = profilePicture;
   }
 
-  public @Gender String getGender() {
+  public String getGender() {
     return gender;
   }
 
-  public void setGender(@Gender String gender) {
+  public void setGender(String gender) {
     this.gender = gender;
   }
 
