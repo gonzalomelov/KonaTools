@@ -69,6 +69,14 @@ public class DateHelper {
     return new Date(instant.toEpochMilli());
   }
 
+  public static Date stringFomattedUsingDashesYYYYMMdd(String date) {
+    if (TextUtils.isEmpty(date)) return null;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
+    LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
+    Instant instant = dateTime.toInstant(ZoneOffset.UTC);
+    return new Date(instant.toEpochMilli());
+  }
+
   //public static Date localDate2Date(LocalDate value) {
   //  LocalDate ld = value;
   //  Instant instant = ld.atStartOvaluey().atZone(ZoneId.systemDefault()).toInstant();

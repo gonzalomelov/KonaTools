@@ -11,6 +11,22 @@ import java.lang.annotation.RetentionPolicy;
  **/
 public class User {
 
+  public String getBirthplace() {
+    return birthplace;
+  }
+
+  public void setBirthplace(String birthplace) {
+    this.birthplace = birthplace;
+  }
+
+  public String getHowTravel() {
+    return howTravel;
+  }
+
+  public void setHowTravel(String howTravel) {
+    this.howTravel = howTravel;
+  }
+
   public interface GenderOptions {
     String MALE = "M";
     String FEMALE = "F";
@@ -26,12 +42,14 @@ public class User {
   private String profilePicture;
   private String gender;
   private String birthdate;
+  private String birthplace;
+  private String howTravel;
 
   public User() {
   }
 
-  public User(String id, String email, String name, String facebookId, String profilePicture,
-      String gender, String birthdate) {
+  public User(String id, String email, String name, String facebookId, String profilePicture, String gender, String birthdate,
+      String birthplace, String howTravel) {
     this.id = id;
     this.email = email;
     this.name = name;
@@ -39,6 +57,8 @@ public class User {
     this.profilePicture = profilePicture;
     this.gender = gender;
     this.birthdate = birthdate;
+    this.birthplace = birthplace;
+    this.howTravel = howTravel;
   }
 
   public String getId() {
