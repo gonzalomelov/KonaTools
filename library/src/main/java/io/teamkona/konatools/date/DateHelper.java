@@ -22,40 +22,47 @@ public class DateHelper {
   public final static String DATE_TIME_WITH_SECONDS = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
   public static LocalDateTime date2LocalDateTime(Date value) {
+    if (value == null) return null;
     Instant instant = Instant.ofEpochMilli(value.getTime());
     return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
   }
 
   public static LocalDate date2LocalDate(Date value) {
+    if (value == null) return null;
     Instant instant = Instant.ofEpochMilli(value.getTime());
     return LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
   }
 
   public static LocalTime date2LocalTime(Date value) {
+    if (value == null) return null;
     Instant instant = Instant.ofEpochMilli(value.getTime());
     return LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalTime();
   }
 
   public static Instant date2Instant(Date value) {
+    if (value == null) return null;
     return Instant.ofEpochMilli(value.getTime());
   }
 
   public static Date localDateTime2Date(LocalDateTime value) {
+    if (value == null) return null;
     Instant instant = value.atZone(ZoneId.systemDefault()).toInstant();
     return new Date(instant.toEpochMilli());
   }
 
-  public static String birthDateToStringFomattedUsingSlashesddMMYYYY(Date date) {
-    return birthDateToStringFomattedUsingPattern(date, "dd/MM/YYYY");
+  public static String birthDateToStringFomattedUsingSlashesddMMYYYY(Date value) {
+    if (value == null) return null;
+    return birthDateToStringFomattedUsingPattern(value, "dd/MM/YYYY");
   }
 
-  public static String birthDateToStringFomattedUsingDashesYYYYMMdd(Date date) {
-    return birthDateToStringFomattedUsingPattern(date, "YYYY-MM-dd");
+  public static String birthDateToStringFomattedUsingDashesYYYYMMdd(Date value) {
+    if (value == null) return null;
+    return birthDateToStringFomattedUsingPattern(value, "YYYY-MM-dd");
   }
 
-  public static String birthDateToStringFomattedUsingPattern(Date date, String pattern) {
-    if (date == null) return null;
-    Instant instant = Instant.ofEpochMilli(date.getTime());
+  public static String birthDateToStringFomattedUsingPattern(Date value, String pattern) {
+    if (value == null) return null;
+    Instant instant = Instant.ofEpochMilli(value.getTime());
     DateTimeFormatter formatter =
         DateTimeFormatter.ofPattern(pattern).withLocale(Locale.getDefault()).withZone(ZoneId.of("UTC").normalized());
     return formatter.format(instant);
