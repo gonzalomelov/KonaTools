@@ -28,7 +28,7 @@ public abstract class MyMixpanelHelper {
     String projectToken = getMixpanelToken();
     MixpanelAPI mixpanel = MixpanelAPI.getInstance(context, projectToken);
     if (sessionManager.isSessionAlive()) {
-      User user = sessionManager.getSession().getUser();
+      User user = sessionManager.getUser();
       mixpanel.identify(user.getEmail());
       mixpanel.getPeople().identify(user.getEmail());
       mixpanel.getPeople().set("$email", user.getEmail());

@@ -25,7 +25,7 @@ public class AuthRequestInterceptor implements Interceptor {
 
     if (sessionManager.isSessionAlive()) {
       newRequestbuilder.addHeader(HEADER_AUTHORIZATION,
-          String.format("%s %s", HEADER_AUTHORIZATION_BEARER, sessionManager.getSession().getAuthToken()));
+          String.format("%s %s", HEADER_AUTHORIZATION_BEARER, sessionManager.getAuthToken()));
     }
 
     Request newRequest = newRequestbuilder.build();

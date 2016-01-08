@@ -1,7 +1,6 @@
 package io.teamkona.konatools;
 
 import android.app.Application;
-import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.Pair;
@@ -28,33 +27,21 @@ import timber.log.Timber;
 /**
  * Created by gonzalomelov on 11/25/15.
  **/
-public abstract class MyApplication extends Application {
+public abstract class MyApplication extends Application implements SessionManager.SessionListener {
 
-  private static Context appContext;
-
-  private static MyEventBus bus = new MyEventBus();
-
-  protected Tracker mTracker;
-
-  protected RetrofitHelper apiRetrofitHelper;
-
-  public static Context getAppContext() {
-    return appContext;
-  }
-
-  public static MyEventBus getEventBus() {
-    return bus;
-  }
+  private Tracker tracker;
+  private RetrofitHelper apiRetrofitHelper;
+  private MyEventBus eventBus;
+  private MyGson myGson;
+  private SharedPreferencesStore sharedPreferencesStore;
+  private SessionManager sessionManager;
 
   @Override public void onCreate() {
     super.onCreate();
-    MyApplication.appContext = getApplicationContext();
-
     setupAndroidThreeTen();
     setupFabric();
     setupTimber();
     setupFacebook();
-    setupRetrofit(getCustomTypeAdapters(), getCustomJsonSerializers(), getCustomJsonDeserializers());
   }
 
   private void setupAndroidThreeTen() {
@@ -62,9 +49,7 @@ public abstract class MyApplication extends Application {
   }
 
   private void setupFabric() {
-    CrashlyticsCore core = new CrashlyticsCore.Builder()
-        .disabled(BuildConfig.DEBUG)
-        .build();
+    CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build();
     Fabric.with(this, new Crashlytics.Builder().core(core).build());
   }
 
@@ -79,15 +64,6 @@ public abstract class MyApplication extends Application {
     FacebookSdk.sdkInitialize(getApplicationContext());
   }
 
-  protected void setupRetrofit(List<Pair<Type, TypeAdapter>> customTypeAdapters, List<Pair<Type, JsonSerializer>> customJsonSerializers,
-      List<Pair<Type, JsonDeserializer>> customJsonDeserializers) {
-    MyGson myGson = new MyGson(customTypeAdapters, customJsonSerializers, customJsonDeserializers);
-    SharedPreferencesStore sharedPreferencesStore = new SharedPreferencesStore(this, myGson);
-    SessionManager sessionManager = new SessionManager(sharedPreferencesStore);
-    MyOkHttpClient myOkHttpClient = new MyOkHttpClient(sessionManager);
-    apiRetrofitHelper = new RetrofitHelper(myOkHttpClient, myGson, getApiHost());
-  }
-
   protected abstract String getApiHost();
 
   protected abstract List<Pair<Type, TypeAdapter>> getCustomTypeAdapters();
@@ -96,26 +72,52 @@ public abstract class MyApplication extends Application {
 
   protected abstract List<Pair<Type, JsonDeserializer>> getCustomJsonDeserializers();
 
-  /**
-   * Gets the default {@link Tracker} for this {@link Application}.
-   *
-   * @return tracker
-   */
-  synchronized public Tracker getDefaultTracker() {
-    if (mTracker == null) {
-      GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-      // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
-      mTracker = analytics.newTracker(getGlobalTrackerConfigRes());
-    }
-    return mTracker;
-  }
-
   protected abstract int getGlobalTrackerConfigRes();
 
-  public SessionManager getSessionManager() {
-    MyGson myGson = new MyGson();
-    SharedPreferencesStore sharedPreferencesStore = new SharedPreferencesStore(this, myGson);
-    return new SessionManager(sharedPreferencesStore);
+  synchronized public Tracker getDefaultTracker() {
+    if (tracker == null) {
+      GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+      // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+      tracker = analytics.newTracker(getGlobalTrackerConfigRes());
+    }
+    return tracker;
+  }
+
+  public RetrofitHelper getApiRetrofitHelper() {
+    if (apiRetrofitHelper == null) {
+      MyOkHttpClient myOkHttpClient = new MyOkHttpClient(getSessionManager());
+      MyGson customMyGson = new MyGson(getCustomTypeAdapters(), getCustomJsonSerializers(), getCustomJsonDeserializers());
+      apiRetrofitHelper = new RetrofitHelper(myOkHttpClient, customMyGson, getApiHost());
+    }
+    return apiRetrofitHelper;
+  }
+
+  synchronized public MyEventBus getEventBus() {
+    if (eventBus == null) {
+      eventBus = new MyEventBus();
+    }
+    return eventBus;
+  }
+
+  synchronized public MyGson getMyGson() {
+    if (myGson == null) {
+      myGson = new MyGson();
+    }
+    return myGson;
+  }
+
+  synchronized public SharedPreferencesStore getSharedPreferencesStore() {
+    if (sharedPreferencesStore == null) {
+      sharedPreferencesStore = new SharedPreferencesStore(this, getMyGson());
+    }
+    return sharedPreferencesStore;
+  }
+
+  synchronized public SessionManager getSessionManager() {
+    if (sessionManager == null) {
+      sessionManager = new SessionManager(this, getSharedPreferencesStore());
+    }
+    return sessionManager;
   }
 
   public static class CrashlyticsTree extends Timber.Tree {
@@ -123,8 +125,7 @@ public abstract class MyApplication extends Application {
     private static final String CRASHLYTICS_KEY_TAG = "tag";
     private static final String CRASHLYTICS_KEY_MESSAGE = "message";
 
-    @Override
-    protected void log(int priority, @Nullable String tag, @Nullable String message, @Nullable Throwable t) {
+    @Override protected void log(int priority, @Nullable String tag, @Nullable String message, @Nullable Throwable t) {
       if (priority == Log.VERBOSE || priority == Log.DEBUG || priority == Log.INFO) {
         return;
       }
@@ -140,5 +141,4 @@ public abstract class MyApplication extends Application {
       }
     }
   }
-
 }
