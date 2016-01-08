@@ -2,8 +2,11 @@ package io.teamkona.konatools;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.util.Pair;
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
@@ -20,6 +23,7 @@ import io.teamkona.konatools.session.SessionManager;
 import io.teamkona.konatools.sharedpreferences.SharedPreferencesStore;
 import java.lang.reflect.Type;
 import java.util.List;
+import timber.log.Timber;
 
 /**
  * Created by gonzalomelov on 11/25/15.
@@ -48,6 +52,7 @@ public abstract class MyApplication extends Application {
 
     setupAndroidThreeTen();
     setupFabric();
+    setupTimber();
     setupFacebook();
     setupRetrofit(getCustomTypeAdapters(), getCustomJsonSerializers(), getCustomJsonDeserializers());
   }
@@ -57,9 +62,17 @@ public abstract class MyApplication extends Application {
   }
 
   private void setupFabric() {
-    if (!BuildConfig.DEBUG) {
-      Fabric.with(this, new Crashlytics());
+    CrashlyticsCore core = new CrashlyticsCore.Builder()
+        .disabled(BuildConfig.DEBUG)
+        .build();
+    Fabric.with(this, new Crashlytics.Builder().core(core).build());
+  }
+
+  private void setupTimber() {
+    if (BuildConfig.DEBUG) {
+      Timber.plant(new Timber.DebugTree());
     }
+    Timber.plant(new CrashlyticsTree());
   }
 
   private void setupFacebook() {
@@ -104,4 +117,28 @@ public abstract class MyApplication extends Application {
     SharedPreferencesStore sharedPreferencesStore = new SharedPreferencesStore(this, myGson);
     return new SessionManager(sharedPreferencesStore);
   }
+
+  public static class CrashlyticsTree extends Timber.Tree {
+    private static final String CRASHLYTICS_KEY_PRIORITY = "priority";
+    private static final String CRASHLYTICS_KEY_TAG = "tag";
+    private static final String CRASHLYTICS_KEY_MESSAGE = "message";
+
+    @Override
+    protected void log(int priority, @Nullable String tag, @Nullable String message, @Nullable Throwable t) {
+      if (priority == Log.VERBOSE || priority == Log.DEBUG || priority == Log.INFO) {
+        return;
+      }
+
+      Crashlytics.setInt(CRASHLYTICS_KEY_PRIORITY, priority);
+      Crashlytics.setString(CRASHLYTICS_KEY_TAG, tag);
+      Crashlytics.setString(CRASHLYTICS_KEY_MESSAGE, message);
+
+      if (t == null) {
+        Crashlytics.logException(new Exception(message));
+      } else {
+        Crashlytics.logException(t);
+      }
+    }
+  }
+
 }
