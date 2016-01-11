@@ -2,7 +2,9 @@ package io.teamkona.konatools.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.IntentCompat;
 
 /**
@@ -10,12 +12,20 @@ import android.support.v4.content.IntentCompat;
  */
 public class NavigationUtils {
   public static void navigateToActivity(@NonNull Activity activity, @NonNull Intent intent) {
-    activity.startActivity(intent);
+    navigateToActivity(activity, intent, null);
+  }
+
+  public static void navigateToActivity(@NonNull Activity activity, @NonNull Intent intent, @Nullable Bundle extras) {
+    activity.startActivity(intent, extras);
   }
 
   public static void navigateToActivityClearingStack(@NonNull Activity activity, @NonNull Intent intent) {
+    navigateToActivityClearingStack(activity, intent, null);
+  }
+
+  public static void navigateToActivityClearingStack(@NonNull Activity activity, @NonNull Intent intent, @Nullable Bundle extras) {
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-    activity.startActivity(intent);
+    activity.startActivity(intent, extras);
   }
 
   public static void navigateToActivityWithoutAddingToHistory(@NonNull Activity activity, @NonNull Intent intent) {
