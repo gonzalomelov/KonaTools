@@ -27,7 +27,7 @@ public class Constants {
 
   public static final String SORT = "sort";
   public static final int SORT_ASCENDING = 1;
-  public static final int SORT_DESCENDING = 1;
+  public static final int SORT_DESCENDING = -1;
   public static final String SORT_ID = SORT + "[" + ID + "]";
 
   public static final String BIRTHDAY = "birthday";

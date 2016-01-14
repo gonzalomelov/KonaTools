@@ -53,12 +53,7 @@ public abstract class MyApplication extends Application implements SessionManage
     Fabric.with(this, new Crashlytics.Builder().core(core).build());
   }
 
-  private void setupTimber() {
-    if (BuildConfig.DEBUG) {
-      Timber.plant(new Timber.DebugTree());
-    }
-    Timber.plant(new CrashlyticsTree());
-  }
+  protected abstract void setupTimber();
 
   private void setupFacebook() {
     FacebookSdk.sdkInitialize(getApplicationContext());
