@@ -2,7 +2,6 @@ package io.teamkona.konatools.session;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import io.teamkona.konatools.MyApplication;
 import io.teamkona.konatools.sharedpreferences.SharedPreferencesStore;
 
 /**
@@ -64,6 +63,13 @@ public class SessionManager {
     Session session = getSession();
     User user = session.getUser();
     user.setProfilePicture(profilePicture);
+    setSession(session);
+  }
+
+  public void setCurrentPosition(double latitude, double longitude) {
+    Session session = getSession();
+    User user = session.getUser();
+    user.setCurrentPosition(new double[] { latitude, longitude });
     setSession(session);
   }
 

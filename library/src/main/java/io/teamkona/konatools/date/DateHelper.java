@@ -36,7 +36,7 @@ public class DateHelper {
   public static LocalTime date2LocalTime(Date value) {
     if (value == null) return null;
     Instant instant = Instant.ofEpochMilli(value.getTime());
-    return LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalTime();
+    return LocalDateTime.ofInstant(instant, ZoneId.of("Z")).toLocalTime();
   }
 
   public static Instant date2Instant(Date value) {

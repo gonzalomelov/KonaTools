@@ -13,7 +13,10 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonSerializer;
 import com.google.gson.TypeAdapter;
 import com.jakewharton.threetenabp.AndroidThreeTen;
+import com.squareup.okhttp.Interceptor;
 import io.fabric.sdk.android.Fabric;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.teamkona.konatools.events.MyEventBus;
 import io.teamkona.konatools.gson.MyGson;
 import io.teamkona.konatools.network.MyOkHttpClient;
@@ -29,6 +32,8 @@ import timber.log.Timber;
  **/
 public abstract class MyApplication extends Application implements SessionManager.SessionListener {
 
+  public static final long REALM_VERSION = 0;
+
   private Tracker tracker;
   private RetrofitHelper apiRetrofitHelper;
   private MyEventBus eventBus;
@@ -42,6 +47,7 @@ public abstract class MyApplication extends Application implements SessionManage
     setupFabric();
     setupTimber();
     setupFacebook();
+    setupRealmConfiguration();
   }
 
   private void setupAndroidThreeTen() {
@@ -57,6 +63,11 @@ public abstract class MyApplication extends Application implements SessionManage
 
   private void setupFacebook() {
     FacebookSdk.sdkInitialize(getApplicationContext());
+  }
+
+  private void setupRealmConfiguration() {
+    RealmConfiguration config = new RealmConfiguration.Builder(this).name(Realm.DEFAULT_REALM_NAME).schemaVersion(REALM_VERSION).build();
+    Realm.setDefaultConfiguration(config);
   }
 
   protected abstract String getApiHost();
@@ -80,12 +91,14 @@ public abstract class MyApplication extends Application implements SessionManage
 
   public RetrofitHelper getApiRetrofitHelper() {
     if (apiRetrofitHelper == null) {
-      MyOkHttpClient myOkHttpClient = new MyOkHttpClient(getSessionManager());
+      MyOkHttpClient myOkHttpClient = new MyOkHttpClient();
       MyGson customMyGson = new MyGson(getCustomTypeAdapters(), getCustomJsonSerializers(), getCustomJsonDeserializers());
-      apiRetrofitHelper = new RetrofitHelper(myOkHttpClient, customMyGson, getApiHost());
+      apiRetrofitHelper = new RetrofitHelper(myOkHttpClient, customMyGson, getApiHost(), getAuthInterceptor());
     }
     return apiRetrofitHelper;
   }
+
+  protected abstract Interceptor getAuthInterceptor();
 
   synchronized public MyEventBus getEventBus() {
     if (eventBus == null) {

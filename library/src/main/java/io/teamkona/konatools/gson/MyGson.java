@@ -9,6 +9,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonSerializer;
 import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.Expose;
 import io.realm.RealmObject;
 import io.teamkona.konatools.network.common.DateDeserializer;
 import io.teamkona.konatools.network.common.LocalDateTimeAdapter;
@@ -52,6 +53,25 @@ public class MyGson {
 
   public Gson getGson() {
     GsonBuilder gsonBuilder = new GsonBuilder();
+    gsonBuilder.addSerializationExclusionStrategy(new ExclusionStrategy() {
+      @Override public boolean shouldSkipField(FieldAttributes fieldAttributes) {
+        final Expose expose = fieldAttributes.getAnnotation(Expose.class);
+        return expose != null && !expose.serialize();
+      }
+
+      @Override public boolean shouldSkipClass(Class<?> aClass) {
+        return false;
+      }
+    }).addDeserializationExclusionStrategy(new ExclusionStrategy() {
+      @Override public boolean shouldSkipField(FieldAttributes fieldAttributes) {
+        final Expose expose = fieldAttributes.getAnnotation(Expose.class);
+        return expose != null && !expose.deserialize();
+      }
+
+      @Override public boolean shouldSkipClass(Class<?> aClass) {
+        return false;
+      }
+    });
     gsonBuilder.setExclusionStrategies(new ExclusionStrategy() {
       @Override public boolean shouldSkipField(FieldAttributes f) {
         return f.getDeclaringClass().equals(RealmObject.class);

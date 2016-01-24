@@ -1,6 +1,7 @@
 package io.teamkona.konatools.session;
 
 import android.support.annotation.StringDef;
+import android.text.TextUtils;
 import com.google.gson.annotations.SerializedName;
 import io.teamkona.konatools.network.services.Constants;
 import java.lang.annotation.Retention;
@@ -11,30 +12,6 @@ import java.lang.annotation.RetentionPolicy;
  **/
 public class User {
 
-  public String getBirthplace() {
-    return birthplace;
-  }
-
-  public void setBirthplace(String birthplace) {
-    this.birthplace = birthplace;
-  }
-
-  public String getHowTravel() {
-    return howTravel;
-  }
-
-  public void setHowTravel(String howTravel) {
-    this.howTravel = howTravel;
-  }
-
-  public interface GenderOptions {
-    String MALE = "M";
-    String FEMALE = "F";
-  }
-
-  @Retention(RetentionPolicy.SOURCE) @StringDef({ GenderOptions.MALE, GenderOptions.FEMALE }) public @interface Gender {
-  }
-
   @SerializedName(Constants.ID) private String id;
   private String email;
   private String name;
@@ -44,12 +21,14 @@ public class User {
   private String birthdate;
   private String birthplace;
   private String howTravel;
+  private double[] currentPosition;
+  private String currentHostel;
 
   public User() {
   }
 
   public User(String id, String email, String name, String facebookId, String profilePicture, String gender, String birthdate,
-      String birthplace, String howTravel) {
+      String birthplace, String howTravel, double[] currentPosition, String currentHostel) {
     this.id = id;
     this.email = email;
     this.name = name;
@@ -59,38 +38,41 @@ public class User {
     this.birthdate = birthdate;
     this.birthplace = birthplace;
     this.howTravel = howTravel;
+    this.currentPosition = currentPosition;
+    this.currentHostel = currentHostel;
+  }
+
+  // custom methods
+
+  public String getCurrentPositionAsCommaSeparatedString() {
+    if (currentPosition == null || currentPosition.length == 0) return null;
+    return TextUtils.join(",", new String[] { String.valueOf(currentPosition[1]), String.valueOf(currentPosition[0]) });
+  }
+
+  // getters and setters
+
+  public String getBirthplace() {
+    return birthplace;
+  }
+
+  public String getHowTravel() {
+    return howTravel;
   }
 
   public String getId() {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
   public String getEmail() {
     return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
   }
 
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
   public String getFacebookId() {
     return facebookId;
-  }
-
-  public void setFacebookId(String facebookId) {
-    this.facebookId = facebookId;
   }
 
   public String getProfilePicture() {
@@ -105,15 +87,31 @@ public class User {
     return gender;
   }
 
-  public void setGender(String gender) {
-    this.gender = gender;
-  }
-
   public String getBirthdate() {
     return birthdate;
   }
 
-  public void setBirthdate(String birthdate) {
-    this.birthdate = birthdate;
+  public double[] getCurrentPosition() {
+    return currentPosition;
+  }
+
+  public void setCurrentPosition(double[] currentPosition) {
+    this.currentPosition = currentPosition;
+  }
+
+  public String getCurrentHostel() {
+    return currentHostel;
+  }
+
+  public void setCurrentHostel(String currentHostel) {
+    this.currentHostel = currentHostel;
+  }
+
+  public interface GenderOptions {
+    String MALE = "M";
+    String FEMALE = "F";
+  }
+
+  @Retention(RetentionPolicy.SOURCE) @StringDef({ GenderOptions.MALE, GenderOptions.FEMALE }) public @interface Gender {
   }
 }
