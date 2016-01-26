@@ -4,7 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
@@ -18,6 +24,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import io.teamkona.konatools.R;
 
 /**
@@ -80,6 +87,15 @@ public class UiHelper {
     Drawable newIcon = item.getIcon();
     newIcon.mutate().setColorFilter(color, PorterDuff.Mode.SRC_IN);
     item.setIcon(newIcon);
+  }
+
+  public static Bitmap tintBitmap(Context context, Bitmap bitmap, int color) {
+    Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+    Canvas canvas = new Canvas(mutableBitmap);
+    Paint paint = new Paint();
+    paint.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+    canvas.drawBitmap(bitmap, 0, 0, paint);
+    return mutableBitmap;
   }
 
   public static void slideUpFromSideTransition(Activity activity) {
