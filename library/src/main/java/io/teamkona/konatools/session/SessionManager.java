@@ -59,6 +59,13 @@ public class SessionManager {
     return getSession().getUser();
   }
 
+  public void setUserName(String userName) {
+    Session session = getSession();
+    User user = session.getUser();
+    user.setName(userName);
+    setSession(session);
+  }
+
   public void setProfilePicture(String profilePicture) {
     Session session = getSession();
     User user = session.getUser();

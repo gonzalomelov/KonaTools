@@ -84,6 +84,14 @@ public class DateHelper {
     return new Date(instant.toEpochMilli());
   }
 
+  public static String stringTimeToStringDate(String time) {
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+    LocalDateTime localDateTime =
+        LocalDateTime.of(LocalDate.ofEpochDay(0), LocalTime.parse(time, dtf));
+    Instant instant = localDateTime.toInstant(ZoneOffset.UTC);
+    return instant.toString();
+  }
+
   //public static Date localDate2Date(LocalDate value) {
   //  LocalDate ld = value;
   //  Instant instant = ld.atStartOvaluey().atZone(ZoneId.systemDefault()).toInstant();
