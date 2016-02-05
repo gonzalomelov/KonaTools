@@ -32,8 +32,6 @@ import timber.log.Timber;
  **/
 public abstract class MyApplication extends Application implements SessionManager.SessionListener {
 
-  public static final long REALM_VERSION = 3;
-
   private Tracker tracker;
   private RetrofitHelper apiRetrofitHelper;
   private MyEventBus eventBus;
@@ -68,11 +66,13 @@ public abstract class MyApplication extends Application implements SessionManage
   private void setupRealmConfiguration() {
     RealmConfiguration.Builder builder = new RealmConfiguration.Builder(this)
         .name(Realm.DEFAULT_REALM_NAME)
-        .schemaVersion(REALM_VERSION);
+        .schemaVersion(getRealmVersion());
     builder = addRealmMigrations(builder);
     RealmConfiguration config = builder.build();
     Realm.setDefaultConfiguration(config);
   }
+
+  protected abstract long getRealmVersion();
 
   protected abstract RealmConfiguration.Builder addRealmMigrations(RealmConfiguration.Builder builder);
 
