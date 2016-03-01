@@ -1,6 +1,5 @@
 package io.teamkona.konatools.network.common;
 
-import android.util.Log;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
