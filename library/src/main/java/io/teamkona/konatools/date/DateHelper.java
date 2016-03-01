@@ -3,6 +3,7 @@ package io.teamkona.konatools.date;
 import android.text.TextUtils;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
@@ -90,6 +91,51 @@ public class DateHelper {
         LocalDateTime.of(LocalDate.ofEpochDay(0), LocalTime.parse(time, dtf));
     Instant instant = localDateTime.toInstant(ZoneOffset.UTC);
     return instant.toString();
+  }
+
+  public static Date convertFromDefaultToUTC(Date date) {
+    return DateHelper.convertTimeZone(date, TimeZone.getDefault(), TimeZone.getTimeZone("UTC"));
+  }
+
+  public static Date convertFromUTCToDefault(Date date) {
+    return DateHelper.convertTimeZone(date, TimeZone.getTimeZone("UTC"), TimeZone.getDefault());
+  }
+
+  /**
+   * Converts the given <code>date</code> from the <code>fromTimeZone</code> to the
+   * <code>toTimeZone</code>.  Since java.util.Date has does not really store time zome
+   * information, this actually converts the date to the date that it would be in the
+   * other time zone.
+   * @param date
+   * @param fromTimeZone
+   * @param toTimeZone
+   * @return
+   */
+  public static Date convertTimeZone(Date date, TimeZone fromTimeZone, TimeZone toTimeZone)
+  {
+    long fromTimeZoneOffset = getTimeZoneUTCAndDSTOffset(date, fromTimeZone);
+    long toTimeZoneOffset = getTimeZoneUTCAndDSTOffset(date, toTimeZone);
+
+    return new Date(date.getTime() + (toTimeZoneOffset - fromTimeZoneOffset));
+  }
+
+  /**
+   * Calculates the offset of the <code>timeZone</code> from UTC, factoring in any
+   * additional offset due to the time zone being in daylight savings time as of
+   * the given <code>date</code>.
+   * @param date
+   * @param timeZone
+   * @return
+   */
+  private static long getTimeZoneUTCAndDSTOffset(Date date, TimeZone timeZone)
+  {
+    long timeZoneDSTOffset = 0;
+    if(timeZone.inDaylightTime(date))
+    {
+      timeZoneDSTOffset = timeZone.getDSTSavings();
+    }
+
+    return timeZone.getRawOffset() + timeZoneDSTOffset;
   }
 
   //public static Date localDate2Date(LocalDate value) {
