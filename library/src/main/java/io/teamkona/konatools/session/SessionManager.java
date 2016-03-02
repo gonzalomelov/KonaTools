@@ -1,6 +1,5 @@
 package io.teamkona.konatools.session;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import io.teamkona.konatools.sharedpreferences.SharedPreferencesStore;
 
