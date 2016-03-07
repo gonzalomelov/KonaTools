@@ -72,8 +72,8 @@ public class DateHelper {
   public static Date stringFomattedUsingSlashesMMddYYYYToBirthDate(String date) {
     if (TextUtils.isEmpty(date)) return null;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-    LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
-    Instant instant = dateTime.toInstant(ZoneOffset.UTC);
+    LocalDate localDate = LocalDate.parse(date, formatter);
+    Instant instant = localDate.atStartOfDay().toInstant(ZoneOffset.UTC);
     return new Date(instant.toEpochMilli());
   }
 
