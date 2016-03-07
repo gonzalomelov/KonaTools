@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import io.teamkona.konatools.MyApplication;
 import io.teamkona.konatools.analytics.MyMixpanelHelper;
 import io.teamkona.konatools.gson.MyGson;
@@ -17,7 +18,6 @@ import io.teamkona.konatools.sharedpreferences.SharedPreferencesStore;
 public abstract class MyAnalyticsActivity extends AppCompatActivity {
 
   private Tracker mTracker;
-  protected MyMixpanelHelper myMixpanelHelper;
 
   private String runtimeClassName;
 
@@ -25,7 +25,6 @@ public abstract class MyAnalyticsActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     runtimeClassName = getClass().getSimpleName();
     setupGoogleAnalytics();
-    setupMixpanel();
   }
 
   @Override protected void onResume() {
@@ -38,14 +37,6 @@ public abstract class MyAnalyticsActivity extends AppCompatActivity {
     MyApplication application = (MyApplication) getApplication();
     mTracker = application.getDefaultTracker();
   }
-
-  private void setupMixpanel() {
-    SessionManager sessionManager = ((MyApplication)getApplication()).getSessionManager();
-    myMixpanelHelper = getMixpanelHelper(this, sessionManager);
-    myMixpanelHelper.setup();
-  }
-
-  protected abstract MyMixpanelHelper getMixpanelHelper(Context context, SessionManager sessionManager);
 
   public SessionManager getSessionManager() {
     return ((MyApplication)getApplication()).getSessionManager();
