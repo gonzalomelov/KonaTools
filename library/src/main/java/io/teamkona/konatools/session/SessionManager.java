@@ -79,6 +79,12 @@ public class SessionManager {
     setSession(session);
   }
 
+  public double[] getCurrentPosition() {
+    Session session = getSession();
+    User user = session.getUser();
+    return user.getCurrentPosition();
+  }
+
   public interface SessionListener {
     void onSessionCreated(Session session);
 
