@@ -24,8 +24,8 @@ android {
   defaultConfig {
     minSdkVersion 16
     targetSdkVersion 23
-    versionCode 7
-    versionName "0.0.7"
+    versionCode 8
+    versionName "0.0.8"
   }
   buildTypes {
     release {
@@ -37,11 +37,11 @@ android {
 
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
-  compile 'com.android.support:appcompat-v7:23.1.1'
-  compile 'com.android.support:gridlayout-v7:23.1.1'
-  compile 'com.android.support:cardview-v7:23.1.1'
-  compile 'com.android.support:recyclerview-v7:23.1.1'
-  compile 'com.android.support:design:23.1.1'
+  compile 'com.android.support:appcompat-v7:23.2.0'
+  compile 'com.android.support:gridlayout-v7:23.2.0'
+  compile 'com.android.support:cardview-v7:23.2.0'
+  compile 'com.android.support:recyclerview-v7:23.2.0'
+  compile 'com.android.support:design:23.2.0'
   // apply plugin: 'com.google.gms.google-services'
   compile 'com.google.android.gms:play-services-base:8.4.0'
   compile 'com.google.android.gms:play-services-gcm:8.4.0'
@@ -64,5 +64,5 @@ dependencies {
   compile 'io.realm:realm-android:0.87.1'
   compile 'org.parceler:parceler-api:1.0.4'
   compile 'com.jakewharton.timber:timber:4.1.0'
-  compile 'com.github.gonzalomelov:Android-ReactiveLocation:0.0.10'
+  compile 'com.github.gonzalomelov:Android-ReactiveLocation:0.11'
 }
