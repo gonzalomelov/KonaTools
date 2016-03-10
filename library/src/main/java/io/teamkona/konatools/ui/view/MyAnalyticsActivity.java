@@ -1,16 +1,10 @@
 package io.teamkona.konatools.ui.view;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import io.teamkona.konatools.MyApplication;
-import io.teamkona.konatools.analytics.MyMixpanelHelper;
-import io.teamkona.konatools.gson.MyGson;
-import io.teamkona.konatools.session.SessionManager;
-import io.teamkona.konatools.sharedpreferences.SharedPreferencesStore;
 
 /**
  * Created by gonzalomelov on 11/26/15.
@@ -36,9 +30,5 @@ public abstract class MyAnalyticsActivity extends AppCompatActivity {
   private void setupGoogleAnalytics() {
     MyApplication application = (MyApplication) getApplication();
     mTracker = application.getDefaultTracker();
-  }
-
-  public SessionManager getSessionManager() {
-    return ((MyApplication)getApplication()).getSessionManager();
   }
 }

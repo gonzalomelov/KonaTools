@@ -3,7 +3,6 @@ package io.teamkona.konatools.analytics;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
-import io.teamkona.konatools.session.SessionManager;
 
 /**
  * Created by gonzalomelov on 10/25/15.
@@ -16,7 +15,7 @@ public abstract class MyMixpanelHelper {
     this.context = context;
   }
 
-  public abstract MixpanelAPI setup(SessionManager sessionManager);
+  public abstract MixpanelAPI setup();
 
   protected abstract String getMixpanelToken();
 
