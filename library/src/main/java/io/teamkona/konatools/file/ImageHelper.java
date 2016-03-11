@@ -24,6 +24,10 @@ public class ImageHelper {
 
       Bitmap cameraBmp = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), Uri.fromFile(image));
 
+      if (cameraBmp == null) {
+        return null;
+      }
+
       Matrix m = new Matrix();
       m.postRotate(neededRotation(image));
 
