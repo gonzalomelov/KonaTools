@@ -15,8 +15,6 @@ public abstract class MyMixpanelHelper {
     this.context = context;
   }
 
-  public abstract MixpanelAPI setup();
-
   protected abstract String getMixpanelToken();
 
   public void trackSignUpOrSignInFacebook(@NonNull MixpanelAPI mixpanel) {
