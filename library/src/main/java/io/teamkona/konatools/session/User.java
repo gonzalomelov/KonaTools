@@ -23,12 +23,13 @@ public class User {
   private String howTravel;
   private double[] currentPosition;
   private String currentHostel;
+  private String placeId;
 
   public User() {
   }
 
   public User(String id, String email, String name, String facebookId, String profilePicture, String gender, String birthdate,
-      String birthplace, String howTravel, double[] currentPosition, String currentHostel) {
+      String birthplace, String howTravel, double[] currentPosition, String currentHostel, String placeId) {
     this.id = id;
     this.email = email;
     this.name = name;
@@ -40,6 +41,7 @@ public class User {
     this.howTravel = howTravel;
     this.currentPosition = currentPosition;
     this.currentHostel = currentHostel;
+    this.placeId = placeId;
   }
 
   // custom methods
@@ -109,6 +111,14 @@ public class User {
 
   public void setCurrentHostel(String currentHostel) {
     this.currentHostel = currentHostel;
+  }
+
+  public String getPlaceId() {
+    return placeId;
+  }
+
+  public void setPlaceId(String placeId) {
+    this.placeId = placeId;
   }
 
   public interface GenderOptions {
